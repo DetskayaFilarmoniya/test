@@ -31,13 +31,13 @@
         width: 350px;
         height: auto;
         margin-top: 10vh;
-        margin-bottom: 5vh;
+        margin-bottom: 20vh;
       }
       #title {
         color: white;
         font-size: 36px;
         font-weight: 700;
-        margin-bottom: 5vh;
+        margin-bottom: 10vh;
         text-align: center;
       }
       #startButton {
@@ -49,36 +49,7 @@
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        margin-bottom: 5vh;
-        transition: opacity 0.3s;
-      }
-      #startButton:disabled {
-        background-color: #666;
-        cursor: not-allowed;
-        opacity: 0.7;
-      }
-      #loadingContainer {
-        width: 80%;
-        max-width: 400px;
-        margin-bottom: 5vh;
-      }
-      #loadingText {
-        color: white;
-        text-align: center;
-        margin-bottom: 10px;
-      }
-      #loadingBar {
-        width: 100%;
-        height: 20px;
-        background-color: #333;
-        border-radius: 10px;
-        overflow: hidden;
-      }
-      #loadingProgress {
-        height: 100%;
-        width: 0%;
-        background-color: #c44e4e;
-        transition: width 0.3s;
+        margin-bottom: 35vh;
       }
       #hint {
         position: absolute;
@@ -110,23 +81,53 @@
       a-plane {
         opacity: 0.9;
       }
+      #loadingScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        z-index: 1002;
+      }
+      #loadingProgress {
+        width: 80%;
+        max-width: 300px;
+        height: 20px;
+        background-color: #333;
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      #loadingBar {
+        height: 100%;
+        width: 0%;
+        background-color: #c44e4e;
+        transition: width 0.3s;
+      }
     </style>
   </head>
 
   <body>
+    <!-- Экран загрузки -->
+    <div id="loadingScreen">
+      <div>Загрузка материалов...</div>
+      <div id="loadingProgress">
+        <div id="loadingBar"></div>
+      </div>
+    </div>
+
     <!-- Стартовый экран -->
     <div id="startScreen">
       <img id="logo" src="materials/logo2.png" alt="Логотип">
       <div id="title">Живые истории</div>
-      
-      <div id="loadingContainer">
-        <div id="loadingText">Загрузка контента...</div>
-        <div id="loadingBar">
-          <div id="loadingProgress"></div>
-        </div>
-      </div>
-      
-      <button id="startButton" disabled>Начать</button>
+      <button id="startButton">Начать</button>
     </div>
 
     <!-- Подсказка -->
@@ -136,18 +137,18 @@
     <div id="orientationWarning">Для лучшего отображения поверните телефон вертикально</div>
 
     <!-- Видеоэлементы (скрытые) -->
-    <video id="video0" src="materials/video0.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video1" src="materials/video1.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video2" src="materials/video2.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video3" src="materials/video3.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video4" src="materials/video4.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video5" src="materials/video5.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video6" src="materials/video6.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video7" src="materials/video7.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video8" src="materials/video8.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video9" src="materials/video9.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video10" src="materials/video10.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
-    <video id="video11" src="materials/video11.mp4" preload="auto" loop crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video0" src="materials/video0.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video1" src="materials/video1.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video2" src="materials/video2.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video3" src="materials/video3.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video4" src="materials/video4.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video5" src="materials/video5.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video6" src="materials/video6.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video7" src="materials/video7.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video8" src="materials/video8.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video9" src="materials/video9.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video10" src="materials/video10.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
+    <video id="video11" src="materials/video11.mp4" preload="auto" loop muted crossorigin="anonymous" playsinline webkit-playsinline style="display: none;"></video>
 
     <!-- Аудиоэлементы (скрытые) -->
     <audio id="audio0" src="materials/audio0.mp3" preload="auto" crossorigin="anonymous" style="display: none;"></audio>
@@ -211,45 +212,48 @@
       const startButton = document.getElementById("startButton");
       const hint = document.getElementById("hint");
       const orientationWarning = document.getElementById("orientationWarning");
-      const loadingText = document.getElementById("loadingText");
-      const loadingProgress = document.getElementById("loadingProgress");
+      const loadingScreen = document.getElementById("loadingScreen");
+      const loadingBar = document.getElementById("loadingBar");
       const videoCount = 12;
       const videos = [];
       const audios = [];
-      
-      // Счетчик загруженных файлов
-      let loadedCount = 0;
-      const totalFiles = videoCount * 2; // Видео + аудио
+      let loadedResources = 0;
 
-      // Функция обновления прогресса загрузки
+      // Функция для обновления прогресса загрузки
       function updateProgress() {
-        loadedCount++;
-        const progress = Math.round((loadedCount / totalFiles) * 100);
-        loadingProgress.style.width = progress + '%';
+        loadedResources++;
+        const progress = Math.floor((loadedResources / (videoCount * 2)) * 100);
+        loadingBar.style.width = `${progress}%`;
         
-        if (loadedCount === totalFiles) {
-          loadingText.textContent = "Загрузка завершена!";
-          startButton.disabled = false;
+        if (loadedResources === videoCount * 2) {
+          // Все ресурсы загружены
+          setTimeout(() => {
+            loadingScreen.style.display = "none";
+            startScreen.style.display = "flex";
+          }, 500);
         }
       }
 
+      // Инициализация видео и аудио
       for (let i = 0; i < videoCount; i++) {
         const video = document.getElementById("video" + i);
         videos.push(video);
         
-        // Обработчики загрузки видео
+        // Обработчики для видео
         video.addEventListener('loadeddata', updateProgress);
-        video.addEventListener('error', function() {
-          console.error("Ошибка загрузки видео " + i);
-          updateProgress(); // Все равно учитываем в прогрессе
+        video.addEventListener('error', () => {
+          console.error(`Ошибка загрузки видео ${i}`);
+          updateProgress();
         });
         
         const audio = document.getElementById("audio" + i);
-        // Обработчики загрузки аудио
-        audio.addEventListener('loadeddata', updateProgress);
-        audio.addEventListener('error', function() {
-          console.error("Ошибка загрузки аудио " + i);
-          updateProgress(); // Все равно учитываем в прогрессе
+        audios.push(audio);
+        
+        // Обработчики для аудио
+        audio.addEventListener('canplaythrough', updateProgress);
+        audio.addEventListener('error', () => {
+          console.error(`Ошибка загрузки аудио ${i}`);
+          updateProgress();
         });
         
         // Добавляем обработчик события окончания воспроизведения
@@ -257,11 +261,12 @@
           this.currentTime = 0; // Перематываем в начало
           this.play().catch(e => console.warn(`Ошибка воспроизведения audio${i}:`, e));
         });
-        audios.push(audio);
       }
 
       let isStarted = false;
       let markerFound = false;
+      let currentPlayingVideo = null;
+      let currentPlayingAudio = null;
 
       // Функция проверки ориентации
       function checkOrientation() {
@@ -285,6 +290,11 @@
         startScreen.style.display = "none";
         hint.style.display = "block";
         checkOrientation(); // Проверить ориентацию при старте
+        
+        // Предзагрузка всех видео (начинаем воспроизведение с паузой)
+        videos.forEach(video => {
+          video.play().then(() => video.pause()).catch(e => console.warn("Предзагрузка видео:", e));
+        });
       });
 
       function updateHintVisibility() {
@@ -297,6 +307,17 @@
         }
       }
 
+      function stopCurrentMedia() {
+        if (currentPlayingVideo) {
+          currentPlayingVideo.pause();
+          currentPlayingVideo.currentTime = 0;
+        }
+        if (currentPlayingAudio) {
+          currentPlayingAudio.pause();
+          currentPlayingAudio.currentTime = 0;
+        }
+      }
+
       for (let i = 0; i < videoCount; i++) {
         const marker = document.getElementById("marker" + i);
         const video = videos[i];
@@ -304,14 +325,24 @@
 
         marker.addEventListener("markerFound", () => {
           if (isStarted) {
+            stopCurrentMedia(); // Останавливаем текущее воспроизведение
+            
             markerFound = true;
             updateHintVisibility();
-            video.play().catch((e) =>
-              console.warn(`Ошибка воспроизведения video${i}:`, e)
-            );
-            audio.play().catch((e) =>
-              console.warn(`Ошибка воспроизведения audio${i}:`, e)
-            );
+            
+            currentPlayingVideo = video;
+            currentPlayingAudio = audio;
+            
+            video.play().catch((e) => {
+              console.warn(`Ошибка воспроизведения video${i}:`, e);
+              // Попробуем снова с muted
+              video.muted = true;
+              video.play().catch(e => console.warn(`Повторная ошибка video${i}:`, e));
+            });
+            
+            audio.play().catch((e) => {
+              console.warn(`Ошибка воспроизведения audio${i}:`, e);
+            });
           }
         });
 
@@ -319,10 +350,9 @@
           if (isStarted) {
             markerFound = false;
             updateHintVisibility();
-            video.pause();
-            video.currentTime = 0;
-            audio.pause();
-            audio.currentTime = 0;
+            stopCurrentMedia();
+            currentPlayingVideo = null;
+            currentPlayingAudio = null;
           }
         });
       }

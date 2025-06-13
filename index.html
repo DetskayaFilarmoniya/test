@@ -220,8 +220,6 @@
       // Счетчик загруженных файлов
       let loadedCount = 0;
       const totalFiles = videoCount * 2; // Видео + аудио
-      let allLoaded = false;
-      let loadTimeout;
 
       // Функция обновления прогресса загрузки
       function updateProgress() {
@@ -229,77 +227,38 @@
         const progress = Math.round((loadedCount / totalFiles) * 100);
         loadingProgress.style.width = progress + '%';
         
-        if (progress >= 100) {
-          completeLoading();
+        if (loadedCount === totalFiles) {
+          loadingText.textContent = "Загрузка завершена!";
+          startButton.disabled = false;
         }
       }
 
-      // Функция завершения загрузки
-      function completeLoading() {
-        clearTimeout(loadTimeout);
-        allLoaded = true;
-        loadingText.textContent = "Загрузка завершена!";
-        startButton.disabled = false;
+      for (let i = 0; i < videoCount; i++) {
+        const video = document.getElementById("video" + i);
+        videos.push(video);
         
-        // Логирование для отладки
-        console.log("Все медиафайлы загружены");
-      }
-
-      // Таймаут на случай, если какие-то файлы не загрузятся
-      function setupLoadTimeout() {
-        loadTimeout = setTimeout(() => {
-          if (!allLoaded) {
-            console.warn("Не все файлы загрузились, но продолжаем работу");
-            completeLoading();
-          }
-        }, 15000); // 15 секунд таймаут
-      }
-
-      // Проверка состояния загрузки медиафайлов
-      function checkMediaElementLoadState(element, type, index) {
-        if (element.readyState >= 3) { // HAVE_FUTURE_DATA или больше
-          console.log(`${type} ${index} уже имеет данные`);
-          updateProgress();
-        } else {
-          element.addEventListener('loadeddata', () => {
-            console.log(`${type} ${index} загружен`);
-            updateProgress();
-          });
-        }
-        
-        element.addEventListener('error', () => {
-          console.error(`Ошибка загрузки ${type} ${index}`);
+        // Обработчики загрузки видео
+        video.addEventListener('loadeddata', updateProgress);
+        video.addEventListener('error', function() {
+          console.error("Ошибка загрузки видео " + i);
           updateProgress(); // Все равно учитываем в прогрессе
         });
+        
+        const audio = document.getElementById("audio" + i);
+        // Обработчики загрузки аудио
+        audio.addEventListener('loadeddata', updateProgress);
+        audio.addEventListener('error', function() {
+          console.error("Ошибка загрузки аудио " + i);
+          updateProgress(); // Все равно учитываем в прогрессе
+        });
+        
+        // Добавляем обработчик события окончания воспроизведения
+        audio.addEventListener('ended', function() {
+          this.currentTime = 0; // Перематываем в начало
+          this.play().catch(e => console.warn(`Ошибка воспроизведения audio${i}:`, e));
+        });
+        audios.push(audio);
       }
-
-      // Инициализация медиаэлементов
-      function initMediaElements() {
-        for (let i = 0; i < videoCount; i++) {
-          const video = document.getElementById("video" + i);
-          videos.push(video);
-          checkMediaElementLoadState(video, 'video', i);
-          
-          const audio = document.getElementById("audio" + i);
-          checkMediaElementLoadState(audio, 'audio', i);
-          
-          // Добавляем обработчик события окончания воспроизведения
-          audio.addEventListener('ended', function() {
-            this.currentTime = 0;
-            this.play().catch(e => console.warn(`Ошибка воспроизведения audio${i}:`, e));
-          });
-          audios.push(audio);
-        }
-      }
-
-      // Запуск процесса загрузки
-      function startLoading() {
-        setupLoadTimeout();
-        initMediaElements();
-      }
-
-      // Начинаем загрузку при полной загрузке DOM
-      document.addEventListener('DOMContentLoaded', startLoading);
 
       let isStarted = false;
       let markerFound = false;
@@ -309,8 +268,10 @@
         if (!isStarted) return;
         
         if (window.innerHeight < window.innerWidth) {
+          // Горизонтальная ориентация
           orientationWarning.style.display = "block";
         } else {
+          // Вертикальная ориентация
           orientationWarning.style.display = "none";
         }
       }
@@ -323,7 +284,7 @@
         isStarted = true;
         startScreen.style.display = "none";
         hint.style.display = "block";
-        checkOrientation();
+        checkOrientation(); // Проверить ориентацию при старте
       });
 
       function updateHintVisibility() {
